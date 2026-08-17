@@ -1,0 +1,19 @@
+Date,Amount,Transaction Type,Category,Description,Vendor Name,Invoice Ref,Is Flagged,Flag Reason
+2025-07-01,45000.00,Debit,Payroll,Bi-monthly R&D Clinical Staff Salaries,MedStaff Payroll Solutions,PAY-BH-20250701,No,
+2025-07-03,12000.00,Debit,Rent,Cleanroom Lab Facility Lease,BioPark Real Estate,RENT-BIO-202507,No,
+2025-07-05,58000.00,Credit,Retainer Revenue,Phase II Clinical Trial Sponsorship Milestone,PharmaCorp International,INV-OUT-BIO-202507,No,
+2025-07-10,14500.00,Debit,Lab Supplies,Cell Culture Media & Gene Sequencing Kits,ThermoFisher Scientific,TF-202507,No,
+2025-07-12,2100.00,Debit,Software,Electronic Data Capture (EDC) Platform,MedData Cloud,MD-202507,No,
+2025-07-15,45000.00,Debit,Payroll,Bi-monthly R&D Clinical Staff Salaries,MedStaff Payroll Solutions,PAY-BH-20250715,No,
+2025-07-20,62000.00,Credit,Retainer Revenue,Medical Device License Licensing Fee,Apex Health Systems,INV-OUT-BIO-20250720,No,
+2025-08-01,45000.00,Debit,Payroll,Bi-monthly R&D Clinical Staff Salaries,MedStaff Payroll Solutions,PAY-BH-20250801,No,
+2025-08-03,12000.00,Debit,Rent,Cleanroom Lab Facility Lease,BioPark Real Estate,RENT-BIO-202508,No,
+2025-08-10,15200.00,Debit,Lab Supplies,Cell Culture Media & Gene Sequencing Kits,ThermoFisher Scientific,TF-202508,No,
+2025-08-12,2100.00,Debit,Software,Electronic Data Capture (EDC) Platform,MedData Cloud,MD-202508,No,
+2025-08-15,45000.00,Debit,Payroll,Bi-monthly R&D Clinical Staff Salaries,MedStaff Payroll Solutions,PAY-BH-20250815,No,
+2025-08-20,62000.00,Credit,Retainer Revenue,Medical Device License Licensing Fee,Apex Health Systems,INV-OUT-BIO-20250820,No,
+2026-05-10,15500.00,Debit,Lab Supplies,Reagent Supply Surge Purchase,GenomicsDirect Inc,GD-202605,Yes,PRICE_SURGE
+2026-06-10,9500.00,Debit,Equipment,Spectrometer High-Precision Optical Sensor,LabEquip Scientific,INV-BIO-901,Yes,DUPLICATE_PAYMENT
+2026-06-12,9500.00,Debit,Equipment,Spectrometer High-Precision Optical Sensor - Duplicate,LabEquip Scientific,INV-BIO-901,Yes,DUPLICATE_PAYMENT
+2026-06-14,4500.00,Debit,Lab Supplies,Specialized Isotope Compound Batch,BioSource Chemical Supplies,BSC-7712,Yes,UNVERIFIED_VENDOR
+2026-06-21,12500.00,Debit,Consulting,Emergency Weekend Clinical Trial Patient Recruitment Wire,Apex Clinical Trial Retainers,,Yes,WEEKEND_TRANSFER

@@ -1,0 +1,9 @@
+Date,Amount,Transaction Type,Category,Description,Vendor Name,Invoice Ref
+2026-07-01,18500.00,Credit,Software Subscription Sales,Enterprise Retainer Revenue,Acme Enterprise Corp,INV-2026-001
+2026-07-05,3400.00,Debit,Cloud & Hosting Infrastructure,AWS Cloud Hosting Monthly Fee,AWS Cloud Infrastructure,AWS-2026-7781
+2026-07-10,4200.00,Debit,Subcontractors & Consulting,IT Infrastructure Migration,CloudOps Managed Services,INV-CO-9901
+2026-07-12,1250.00,Debit,Office Supplies & Hardware,Bulk Laptop Accessories,Z-Tech Hardware Supplies,INV-ZT-5542
+2026-07-14,1250.00,Debit,Office Supplies & Hardware,Duplicate Order - Bulk Laptop Accessories,Z-Tech Hardware Supplies,INV-ZT-5542
+2026-07-18,5400.00,Debit,Subcontractors & Consulting,Off-hours Saturday International Wire Transfer,Apex Global Consulting LLC,WIRE-2026-904
+2026-07-20,950.00,Debit,Software Subscriptions & Tools,Monthly CRM Subscription,HubSpot CRM,HS-JULY-109
+2026-07-25,12000.00,Credit,Client Retainer Revenue,Q3 Consulting Services Payment,Nexus Dynamics,INV-2026-002

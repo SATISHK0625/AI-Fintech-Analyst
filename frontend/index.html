@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Financial Analyst & Auditor Dashboard</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js & Marked.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="/static/css/styles.css?v=5.0.0">
+</head>
+
+<body class="light-theme">
+    <!-- Full-Screen Enterprise Authentication & Registration Portal -->
+    <div id="auth-portal-screen" class="auth-portal-overlay">
+        <div class="auth-portal-wrapper">
+            <!-- Left Hero Showcase Panel -->
+            <div class="auth-hero-panel">
+                <div class="hero-brand-badge">
+                    <div class="hero-logo-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <span class="hero-brand-name">FinAuditor <span class="badge-ai">ENTERPRISE</span></span>
+                </div>
+
+                <h1 class="hero-headline">Autonomous Financial Intelligence & Audit Suite</h1>
+                <p class="hero-description">Enterprise-grade cash burn tracking, forensic anomaly detection, and AI policy RAG search powered by LangGraph & ChromaDB.</p>
+
+                <div class="hero-features-list">
+                    <div class="hero-feature-item">
+                        <div class="feature-icon blue"><i class="fa-solid fa-chart-line"></i></div>
+                        <div>
+                            <h4>Real-Time Cash Runway & Burn Analytics</h4>
+                            <p>Automated Pandas calculations for net burn rate, runway months, and gross margins.</p>
+                        </div>
+                    </div>
+                    <div class="hero-feature-item">
+                        <div class="feature-icon red"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div>
+                            <h4>Forensic Anomaly & Fraud Prevention</h4>
+                            <p>Instant rule-based detection of duplicate invoices, weekend wire transfers, and price surges.</p>
+                        </div>
+                    </div>
+                    <div class="hero-feature-item">
+                        <div class="feature-icon purple"><i class="fa-solid fa-brain"></i></div>
+                        <div>
+                            <h4>Vector RAG Policy Engine</h4>
+                            <p>Sub-second embedding search over enterprise control policies and compliance handbooks.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-stats-banner glass">
+                    <div class="stat-pill">
+                        <span class="stat-val">99.4%</span>
+                        <span class="stat-lbl">Audit Accuracy</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-pill">
+                        <span class="stat-val">&lt; 1.2s</span>
+                        <span class="stat-lbl">Vector Retrieval</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-pill">
+                        <span class="stat-val">100%</span>
+                        <span class="stat-lbl">Data Isolation</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Form Card Panel -->
+            <div class="auth-form-panel">
+                <div class="auth-portal-card">
+                    <div class="auth-tab-switch">
+                        <button type="button" class="auth-tab-nav active" id="auth-tab-signin-btn">
+                            <i class="fa-solid fa-right-to-bracket"></i> Sign In
+                        </button>
+                        <button type="button" class="auth-tab-nav" id="auth-tab-register-btn">
+                            <i class="fa-solid fa-building-circle-check"></i> Register Workspace
+                        </button>
+                    </div>
+
+                    <!-- Alert Feedback Box -->
+                    <div id="auth-alert" class="auth-alert" style="display: none;"></div>
+
+                    <!-- 1. SIGN IN FORM -->
+                    <div id="form-signin-container" class="auth-form-section active">
+                        <div class="form-section-header">
+                            <h2>Enterprise Sign In</h2>
+                            <p>Access your company financial dashboard & forensic audit suite</p>
+                        </div>
+
+                        <form id="portal-login-form">
+                            <div class="form-group">
+                                <label>Work Email Address</label>
+                                <div class="input-icon-group">
+                                    <i class="fa-solid fa-envelope input-icon"></i>
+                                    <input type="email" id="login-email-input" class="form-control icon-input" placeholder="name@company.com" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <div class="input-icon-group">
+                                    <i class="fa-solid fa-lock input-icon"></i>
+                                    <input type="password" id="login-password-input" class="form-control icon-input" placeholder="••••••••••••" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block btn-lg" id="login-submit-btn">
+                                <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In to Financial Dashboard
+                            </button>
+                        </form>
+
+                        <div class="sso-divider"><span>OR ENTERPRISE SINGLE SIGN-ON</span></div>
+
+                        <button type="button" class="btn btn-sso btn-block" onclick="alert('Enterprise SAML / Okta SSO integration ready. Please sign in with email & password above.')">
+                            <i class="fa-solid fa-key"></i> Sign In with SAML / Okta SSO
+                        </button>
+                    </div>
+
+                    <!-- 2. REGISTER FORM -->
+                    <div id="form-register-container" class="auth-form-section" style="display: none;">
+                        <div class="form-section-header">
+                            <h2>Initialize Enterprise Workspace</h2>
+                            <p>Set up your multi-tenant workspace and ingest financial ledgers</p>
+                        </div>
+
+                        <form id="portal-register-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <div class="input-icon-group">
+                                        <i class="fa-solid fa-user input-icon"></i>
+                                        <input type="text" id="reg-fullname" class="form-control icon-input" placeholder="Jane Doe" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Work Email</label>
+                                    <div class="input-icon-group">
+                                        <i class="fa-solid fa-envelope input-icon"></i>
+                                        <input type="email" id="reg-useremail" class="form-control icon-input" placeholder="jane@company.com" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <div class="input-icon-group">
+                                        <i class="fa-solid fa-lock input-icon"></i>
+                                        <input type="password" id="reg-userpass" class="form-control icon-input" placeholder="••••••••••••" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Company Name</label>
+                                    <div class="input-icon-group">
+                                        <i class="fa-solid fa-building input-icon"></i>
+                                        <input type="text" id="reg-companyname" class="form-control icon-input" placeholder="BioHealth Dynamics Inc." required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Industry Sector</label>
+                                <div class="input-icon-group">
+                                    <i class="fa-solid fa-industry input-icon"></i>
+                                    <select id="reg-industrysector" class="form-control icon-input">
+                                        <option value="Biotech & Healthcare Devices">Biotech & Healthcare Devices</option>
+                                        <option value="Freight & Supply Chain Operations">Freight & Supply Chain Operations</option>
+                                        <option value="SaaS & Cloud Managed Services">SaaS & Cloud Managed Services</option>
+                                        <option value="General Financial Operations">General Financial Operations</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="upload-dropzones-wrapper">
+                                <div class="form-group">
+                                    <label class="file-label"><i class="fa-solid fa-file-csv green-icon"></i> Transaction Ledger (*.csv)</label>
+                                    <div class="portal-file-dropzone" onclick="document.getElementById('reg-csvfile').click()">
+                                        <div class="dropzone-icon green-bg"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                                        <div class="dropzone-text">
+                                            <span id="reg-csv-name" class="dropzone-title">Upload Transaction Ledger CSV</span>
+                                            <span class="dropzone-sub">Click to browse or drop file here</span>
+                                        </div>
+                                        <input type="file" id="reg-csvfile" class="file-input-hidden" accept=".csv" onchange="document.getElementById('reg-csv-name').innerText = this.files[0] ? this.files[0].name : 'Upload Transaction Ledger CSV'">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="file-label"><i class="fa-solid fa-file-shield blue-icon"></i> Control Policy Handbook (*.pdf, *.md, *.txt)</label>
+                                    <div class="portal-file-dropzone" onclick="document.getElementById('reg-policyfile').click()">
+                                        <div class="dropzone-icon blue-bg"><i class="fa-solid fa-shield-halved"></i></div>
+                                        <div class="dropzone-text">
+                                            <span id="reg-policy-name" class="dropzone-title">Upload Policy RAG Document</span>
+                                            <span class="dropzone-sub">Click to browse or drop file here</span>
+                                        </div>
+                                        <input type="file" id="reg-policyfile" class="file-input-hidden" accept=".md,.txt,.pdf" onchange="document.getElementById('reg-policy-name').innerText = this.files[0] ? this.files[0].name : 'Upload Policy RAG Document'">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block btn-lg" id="register-submit-btn" style="margin-top:14px;">
+                                <i class="fa-solid fa-rocket"></i> Register Workspace & Launch AI Engine
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="auth-footer-text">
+                    <i class="fa-solid fa-shield-check"></i> SOC2 Type II Certified Architecture &bull; 256-Bit SSL Encryption
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application Dashboard Layout -->
+    <div class="app-layout" id="main-app-layout" style="display: none;">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo-icon"><i class="fa-solid fa-chart-simple"></i></div>
+                <div class="brand-text">
+                    <h2>FinAuditor <span class="badge-ai">AI</span></h2>
+                    <span class="subtext">Financial Analyst</span>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-item active" data-tab="overview">
+                    <i class="fa-solid fa-chart-pie"></i> Overview
+                </button>
+                <button class="nav-item" data-tab="audit">
+                    <i class="fa-solid fa-shield-halved"></i> Audit Center
+                    <span class="badge-pill danger" id="sidebar-anomaly-count">0</span>
+                </button>
+                <button class="nav-item" data-tab="agent-console">
+                    <i class="fa-solid fa-robot"></i> AI Console
+                </button>
+                <button class="nav-item" data-tab="data-ingest">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Data Ingestion
+                </button>
+                <button class="nav-item" data-tab="reports">
+                    <i class="fa-solid fa-file-lines"></i> Reports
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="company-card">
+                    <i class="fa-solid fa-building text-muted"></i>
+                    <div>
+                        <div class="company-name" id="current-company-name">ApexTech Solutions</div>
+                        <div class="company-status"><span class="status-dot"></span> Live DB Connected</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header Bar -->
+            <header class="top-header">
+                <div class="page-title">
+                    <h1 id="tab-heading">Executive Financial Overview</h1>
+                    <p id="tab-subheading">Real-time SME cash health, gross margin, and burn analytics</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline" id="btn-export-csv" onclick="window.location.href='/api/financial/transactions/export'">
+                        <i class="fa-solid fa-file-export"></i> Export CSV
+                    </button>
+                    <button class="btn btn-primary" id="btn-quick-audit">
+                        <i class="fa-solid fa-magnifying-glass-dollar"></i> Run Audit
+                    </button>
+                    <button class="btn btn-outline danger-hover" id="btn-logout" onclick="window.logoutUser()">
+                        <i class="fa-solid fa-right-from-bracket"></i> <span id="user-badge-name">Log Out</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- TAB 1: OVERVIEW -->
+            <section class="tab-content active" id="tab-overview">
+                <!-- KPI Cards Grid -->
+                <div class="kpi-grid">
+                    <div class="kpi-card glass">
+                        <div class="kpi-icon blue"><i class="fa-solid fa-hourglass-half"></i></div>
+                        <div class="kpi-body">
+                            <span class="kpi-title">Estimated Cash Runway</span>
+                            <h2 class="kpi-value" id="kpi-runway">-- mos</h2>
+                            <span class="kpi-sub positive" id="kpi-runway-sub"><i class="fa-solid fa-circle-check"></i> Sustainable Buffer</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card glass">
+                        <div class="kpi-icon red"><i class="fa-solid fa-fire"></i></div>
+                        <div class="kpi-body">
+                            <span class="kpi-title">Monthly Net Burn Rate</span>
+                            <h2 class="kpi-value" id="kpi-burn">--</h2>
+                            <span class="kpi-sub" id="kpi-burn-sub">Expenses exceeding revenue</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card glass">
+                        <div class="kpi-icon green"><i class="fa-solid fa-percent"></i></div>
+                        <div class="kpi-body">
+                            <span class="kpi-title">Gross Margin</span>
+                            <h2 class="kpi-value" id="kpi-gross-margin">-- %</h2>
+                            <span class="kpi-sub positive" id="kpi-gm-sub">Target: > 75% for SaaS</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card glass">
+                        <div class="kpi-icon orange"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div class="kpi-body">
+                            <span class="kpi-title">Audit Risk Score</span>
+                            <h2 class="kpi-value" id="kpi-risk-score">--</h2>
+                            <span class="kpi-sub danger" id="kpi-risk-sub">Audit flags detected</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-grid">
+                    <div class="chart-card glass">
+                        <div class="chart-header">
+                            <h3><i class="fa-solid fa-chart-column blue-icon"></i> Revenue vs Expense Monthly Trend</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card glass">
+                        <div class="chart-header">
+                            <h3><i class="fa-solid fa-chart-pie purple-icon"></i> Operating Expenses Breakdown</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: AUDIT & RISK CENTER -->
+            <section class="tab-content" id="tab-audit">
+                <div class="audit-summary-cards">
+                    <div class="audit-summary-card high glass">
+                        <h3>High Risk Flags</h3>
+                        <div class="num" id="high-risk-num">0</div>
+                        <p>Requires immediate action (Duplicates, Unauthorized Wire Transfers)</p>
+                    </div>
+                    <div class="audit-summary-card medium glass">
+                        <h3>Medium Risk Flags</h3>
+                        <div class="num" id="med-risk-num">0</div>
+                        <p>Requires review (Subscription Cost Spikes, Unverified Vendors)</p>
+                    </div>
+                </div>
+
+                <div class="table-card glass">
+                    <div class="table-header">
+                        <h3><i class="fa-solid fa-shield-cat blue-icon"></i> Flagged Transactions & Anomalies</h3>
+                        <span class="table-subtitle">Scanned by Audit Agent against SME policies</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table" id="anomalies-table">
+                            <thead>
+                                <tr>
+                                    <th>Severity</th>
+                                    <th>Flag Type</th>
+                                    <th>Anomaly Details</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="anomalies-table-body">
+                                <tr>
+                                    <td colspan="5" class="text-center">Loading audit scan results...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: CONVERSATIONAL AI CONSOLE & WORKFLOW INSPECTOR -->
+            <section class="tab-content" id="tab-agent-console">
+                <div class="chat-layout glass">
+                    <!-- Left: Chat Sessions History & New Chat -->
+                    <div class="chat-sessions-sidebar">
+                        <button class="btn btn-primary btn-block" id="btn-new-chat">
+                            <i class="fa-solid fa-plus"></i> New Chat
+                        </button>
+                        <div class="sessions-header">
+                            <span>Saved Conversations</span>
+                        </div>
+                        <div class="sessions-list" id="chat-sessions-list">
+                            <p class="text-muted text-sm">Loading chat history...</p>
+                        </div>
+                    </div>
+
+                    <!-- Center: ChatGPT-Style Chat Thread -->
+                    <div class="chat-thread-container">
+                        <div class="chat-header">
+                            <div class="chat-title">
+                                <i class="fa-solid fa-robot blue-icon"></i>
+                                <div>
+                                    <h3>FinAuditor AI Assistant</h3>
+                                    <span class="subtext">Natural language financial analyst & advisory bot</span>
+                                </div>
+                            </div>
+                            <div class="chat-actions">
+                                <span class="session-badge" id="current-session-label">Session: New</span>
+                                <span class="session-badge" id="telemetry-badge" style="color:var(--accent-blue);"><i class="fa-solid fa-gauge-high"></i> Ready</span>
+                            </div>
+                        </div>
+
+                        <!-- Messages Stream -->
+                        <div class="chat-messages-stream" id="chat-messages-container">
+                            <div class="chat-welcome-box">
+                                <div class="welcome-icon"><i class="fa-solid fa-sparkles"></i></div>
+                                <h2>How can I help with your financial data today?</h2>
+                                <p>Ask questions in plain human language about cash flow, burn rate, vendor expenses, or audit rules.</p>
+                                <div class="preset-buttons">
+                                    <button type="button" class="btn-chip" onclick="window.sendPresetMessage('What is our current cash runway and net burn rate?')">Cash Runway & Burn</button>
+                                    <button type="button" class="btn-chip" onclick="window.sendPresetMessage('Are there any duplicate invoice payments in the ledger?')">Check Duplicates</button>
+                                    <button type="button" class="btn-chip" onclick="window.sendPresetMessage('What is our gross margin percentage?')">Gross Margin Target</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chat Input Box -->
+                        <form id="chat-form" class="chat-input-bar">
+                            <div class="input-wrapper">
+                                <textarea id="chat-input" placeholder="Send a message to FinAuditor AI..." rows="1"></textarea>
+                                <button type="submit" class="btn-send" id="btn-send-chat">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Right: Agent Workflow Execution Inspector -->
+                    <div class="agent-workflow-sidebar">
+                        <div class="workflow-header">
+                            <h3><i class="fa-solid fa-sitemap blue-icon"></i> Audit Workflow</h3>
+                            <span class="subtext">LangGraph Multi-Agent Pipeline</span>
+                        </div>
+                        <div class="agent-pipeline-flow">
+                            <div class="agent-node-badge" id="node-planner"><i class="fa-solid fa-compass"></i> Planner Agent</div>
+                            <div class="agent-flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                            <div class="agent-node-badge" id="node-retrieval"><i class="fa-solid fa-database"></i> Retrieval Agent</div>
+                            <div class="agent-flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                            <div class="agent-node-badge" id="node-analysis"><i class="fa-solid fa-calculator"></i> Analysis Agent</div>
+                            <div class="agent-flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                            <div class="agent-node-badge" id="node-audit"><i class="fa-solid fa-user-secret"></i> Audit Agent</div>
+                            <div class="agent-flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                            <div class="agent-node-badge" id="node-recommendation"><i class="fa-solid fa-lightbulb"></i> Recommendation Agent</div>
+                            <div class="agent-flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                            <div class="agent-node-badge" id="node-report"><i class="fa-solid fa-file-contract"></i> Report Agent</div>
+                        </div>
+                        <div class="sessions-header">
+                            <span>Step Execution Logs</span>
+                        </div>
+                        <div class="agent-step-logs" id="agent-step-logs">
+                            <p class="text-muted" style="font-size:12px;">Agent step execution logs will appear here during active audit runs...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: DATA & RAG INGESTION -->
+            <section class="tab-content" id="tab-data-ingest">
+                <div class="upload-grid">
+                    <!-- Transaction CSV Upload -->
+                    <div class="upload-card glass">
+                        <div class="upload-header">
+                            <i class="fa-solid fa-file-csv blue-icon"></i>
+                            <div>
+                                <h3>Upload Transaction Ledger CSV</h3>
+                                <p>Dynamically update SQL transaction database</p>
+                            </div>
+                        </div>
+                        <div class="drop-zone" id="csv-drop-zone">
+                            <i class="fa-solid fa-cloud-arrow-up blue-icon"></i>
+                            <p>Drag & drop financial CSV ledger here or <span class="browse-link">Browse Files</span></p>
+                            <input type="file" id="csv-file-input" accept=".csv" class="file-input-hidden">
+                        </div>
+                        <div class="upload-status" id="csv-upload-status"></div>
+                    </div>
+
+                    <!-- Policy Document RAG Upload -->
+                    <div class="upload-card glass">
+                        <div class="upload-header">
+                            <i class="fa-solid fa-file-lines purple-icon"></i>
+                            <div>
+                                <h3>Upload Policy Document for RAG</h3>
+                                <p>Chunk & index PDF/TXT rules into ChromaDB vector store</p>
+                            </div>
+                        </div>
+                        <div class="drop-zone" id="doc-drop-zone">
+                            <i class="fa-solid fa-folder-plus purple-icon"></i>
+                            <p>Drag & drop company policies (TXT/PDF/MD) or <span class="browse-link">Browse Files</span></p>
+                            <input type="file" id="doc-file-input" accept=".txt,.md,.pdf,.json" class="file-input-hidden">
+                        </div>
+                        <div class="upload-status" id="doc-upload-status"></div>
+                    </div>
+                </div>
+
+                <div class="table-card glass margin-top">
+                    <div class="table-header">
+                        <h3><i class="fa-solid fa-database blue-icon"></i> Vector RAG Knowledge Base</h3>
+                        <span class="table-subtitle">Embedded locally with sentence-transformers/all-MiniLM-L6-v2</span>
+                    </div>
+                    <div class="rag-info-box">
+                        <p><strong>Vector Collection:</strong> <code>financial_knowledge_base</code> (ChromaDB Local)</p>
+                        <p><strong>Indexed Benchmarks:</strong> SaaS Gross Margin targets (>75%), Cash Runway policies, Duplicate invoice rules, Off-hours weekend transfer rules.</p>
+                        <p><strong>Status:</strong> Active & ready for custom document embeddings.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: REPORTS -->
+            <section class="tab-content" id="tab-reports">
+                <div class="reports-layout">
+                    <!-- Saved Reports History List Sidebar -->
+                    <div class="reports-sidebar glass">
+                        <button class="btn btn-primary btn-block margin-bottom" id="btn-generate-report-tab">
+                            <i class="fa-solid fa-file-contract"></i> Generate Report
+                        </button>
+                        <h3><i class="fa-solid fa-clock-rotate-left blue-icon"></i> Saved Reports</h3>
+                        <p class="text-muted" style="font-size:11.5px; margin-top:2px;">Archived executive audit reports</p>
+                        <div class="reports-history-list" id="saved-reports-list">
+                            <p class="text-muted">Loading saved reports...</p>
+                        </div>
+                    </div>
+
+                    <!-- Main Report Viewer -->
+                    <div class="report-container glass" id="report-view-container">
+                        <div class="empty-state">
+                            <i class="fa-solid fa-file-contract fa-lg"></i>
+                            <h4>No Executive Report Selected</h4>
+                            <p>Select a saved report from the list on the left, or click "Generate Report" above.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Auth & Multi-Company Modal Overlay -->
+    <div class="modal-overlay" id="auth-modal" style="display: none;">
+        <div class="modal-card glass">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-user-shield blue-icon"></i> Account & Multi-Company Portal</h2>
+                <button class="modal-close" id="btn-close-auth-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" id="tab-btn-login">Login / Select Company</button>
+                <button class="auth-tab-btn" id="tab-btn-register">Register New Company</button>
+            </div>
+
+            <!-- Login Form -->
+            <div class="auth-tab-content active" id="auth-form-login">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-envelope"></i> Email Address</label>
+                        <input type="email" id="login-email" class="form-control" placeholder="user@company.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-lock"></i> Password</label>
+                        <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-right-to-bracket"></i> Login & Access Dashboard</button>
+                </form>
+
+                <div class="quick-company-section">
+                    <div class="divider"><span>OR SWITCH COMPANY DATASET</span></div>
+                    <label style="font-size:12px; font-weight:600; color:var(--text-muted); display:block; margin-bottom:8px;">Available Enterprise Companies:</label>
+                    <div class="company-selector-list" id="company-selector-list">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Register Form -->
+            <div class="auth-tab-content" id="auth-form-register" style="display: none;">
+                <form id="register-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="reg-name" class="form-control" placeholder="Jane Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="reg-email" class="form-control" placeholder="jane@company.com" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="reg-password" class="form-control" placeholder="••••••••" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <input type="text" id="reg-company" class="form-control" placeholder="Acme Global Inc." required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Industry</label>
+                        <input type="text" id="reg-industry" class="form-control" placeholder="e.g. Technology / Biotech / Logistics">
+                    </div>
+                    
+                    <div class="form-row" style="margin-top:10px;">
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-file-csv"></i> Attach CSV Ledger (Optional)</label>
+                            <input type="file" id="reg-csv" class="form-control" accept=".csv">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-file-pdf"></i> Attach Policy Doc (Optional)</label>
+                            <input type="file" id="reg-policy" class="form-control" accept=".pdf,.txt,.md">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block" style="margin-top:12px;"><i class="fa-solid fa-user-plus"></i> Register & Initialize Company</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/charts.js?v=7.0.0"></script>
+    <script src="/static/js/upload.js?v=7.0.0"></script>
+    <script src="/static/js/app.js?v=7.0.0"></script>
+</body>
+
+</html>
