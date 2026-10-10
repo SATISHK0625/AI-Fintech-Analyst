@@ -8,7 +8,7 @@ from app.config import settings
 from app.database.session import init_db, SessionLocal
 from app.data.seed_data import load_initial_ledger_data
 from app.rag.vector_store import vector_store
-from app.routers import financial, upload, agent, auth
+from app.routers import financial, upload, agent, auth, fintwin
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -29,6 +29,7 @@ app.include_router(financial.router, prefix=settings.API_V1_STR)
 app.include_router(upload.router, prefix=settings.API_V1_STR)
 app.include_router(agent.router, prefix=settings.API_V1_STR)
 app.include_router(auth.router, prefix=settings.API_V1_STR)
+app.include_router(fintwin.router, prefix=settings.API_V1_STR)
 
 @app.on_event("startup")
 def startup_event():

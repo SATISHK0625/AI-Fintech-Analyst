@@ -130,3 +130,7 @@ class ChatMessage(Base):
 
     company = relationship("Company", back_populates="chat_messages")
 
+
+# Import FinTwin models for automatic table creation during init_db()
+from app.database.fintwin_models import FinTwinScenario, FinTwinSimulation
+

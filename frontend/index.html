@@ -13,7 +13,8 @@
     <!-- Chart.js & Marked.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link rel="stylesheet" href="/static/css/styles.css?v=5.0.0">
+    <link rel="stylesheet" href="/static/css/styles.css?v=8.0.0">
+    <link rel="stylesheet" href="/static/css/fintwin.css?v=1.0.0">
 </head>
 
 <body class="light-theme">
@@ -244,6 +245,10 @@
                 </button>
                 <button class="nav-item" data-tab="reports">
                     <i class="fa-solid fa-file-lines"></i> Reports
+                </button>
+                <button class="nav-item" data-tab="fintwin">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> FinTwin Simulator
+                    <span class="badge-pill" style="background:var(--accent-purple-light); color:var(--accent-purple);">AI</span>
                 </button>
             </nav>
 
@@ -545,6 +550,257 @@
                     </div>
                 </div>
             </section>
+
+            <!-- TAB 6: FINTWIN SCENARIO SIMULATOR -->
+            <section class="tab-content" id="tab-fintwin">
+                <div class="fintwin-container">
+                    <!-- FinTwin Top Banner -->
+                    <div class="fintwin-banner">
+                        <div class="fintwin-banner-info">
+                            <div class="fintwin-banner-icon">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            </div>
+                            <div class="fintwin-banner-text">
+                                <h3>FinTwin — AI Financial Decision Simulator <span class="badge-ai" style="background:var(--accent-purple); color:white;">ENTERPRISE</span></h3>
+                                <p>Model forward-looking business scenarios, evaluate cash runway sensitivity, and stress-test policy risks against actual ledgers without modifying original records.</p>
+                            </div>
+                        </div>
+                        <div class="fintwin-banner-actions">
+                            <button type="button" class="btn btn-outline" id="btn-fintwin-compare-selected">
+                                <i class="fa-solid fa-code-compare"></i> Compare Scenarios
+                            </button>
+                            <span class="badge-pill" id="fintwin-active-scenario-badge" style="background:var(--accent-purple-light); color:var(--accent-purple); padding:8px 12px; font-size:12px;">
+                                Baseline Active
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- FinTwin Workspace 2-Column Grid -->
+                    <div class="fintwin-workspace-grid">
+                        <!-- Left Panel: Scenario Builder & Saved Scenarios -->
+                        <div class="fintwin-left-column">
+                            <!-- Scenario Builder Card -->
+                            <div class="fintwin-builder-card glass">
+                                <div class="fintwin-card-header">
+                                    <h3><i class="fa-solid fa-sliders" style="color:var(--accent-purple);"></i> Scenario Parameters</h3>
+                                    <button type="button" class="btn btn-outline" id="btn-fintwin-reset" style="padding:4px 8px; font-size:11.5px;">
+                                        <i class="fa-solid fa-rotate-left"></i> Reset
+                                    </button>
+                                </div>
+
+                                <form id="fintwin-builder-form" class="fintwin-form">
+                                    <div class="fintwin-param-group">
+                                        <label style="font-size:12.5px; font-weight:600;">Scenario Name</label>
+                                        <input type="text" id="fintwin-scenario-name" class="fintwin-input" placeholder="e.g., Aggressive SaaS Expansion Q3" required>
+                                    </div>
+
+                                    <div class="fintwin-param-group">
+                                        <label style="font-size:12.5px; font-weight:600;">Description (Optional)</label>
+                                        <input type="text" id="fintwin-scenario-desc" class="fintwin-input" placeholder="e.g., 20% sales boost with 3 software engineers hired">
+                                    </div>
+
+                                    <!-- Duration Slider -->
+                                    <div class="fintwin-param-group">
+                                        <div class="fintwin-param-header">
+                                            <span>Simulation Horizon</span>
+                                            <span class="fintwin-param-val" id="fintwin-duration-val">12 mos</span>
+                                        </div>
+                                        <input type="range" id="fintwin-duration" class="fintwin-range-slider" min="1" max="60" value="12">
+                                    </div>
+
+                                    <!-- Revenue Growth Slider -->
+                                    <div class="fintwin-param-group">
+                                        <div class="fintwin-param-header">
+                                            <span>Revenue Growth / Decline</span>
+                                            <span class="fintwin-param-val" id="fintwin-rev-growth-val">+0%</span>
+                                        </div>
+                                        <input type="range" id="fintwin-rev-growth" class="fintwin-range-slider" min="-100" max="300" value="0">
+                                    </div>
+
+                                    <!-- Payroll Expense -->
+                                    <div class="fintwin-param-group">
+                                        <div class="fintwin-param-header">
+                                            <span>Payroll Monthly Delta ($)</span>
+                                        </div>
+                                        <input type="number" id="fintwin-payroll" class="fintwin-input" placeholder="e.g. +15000 for 2 hires, or -5000" value="0" step="500">
+                                    </div>
+
+                                    <!-- Marketing Expense -->
+                                    <div class="fintwin-param-group">
+                                        <div class="fintwin-param-header">
+                                            <span>Marketing Monthly Delta ($)</span>
+                                        </div>
+                                        <input type="number" id="fintwin-marketing" class="fintwin-input" placeholder="e.g. +10000 ad spend" value="0" step="500">
+                                    </div>
+
+                                    <!-- OpEx Change -->
+                                    <div class="fintwin-param-group">
+                                        <div class="fintwin-param-header">
+                                            <span>General OpEx Monthly Delta ($)</span>
+                                        </div>
+                                        <input type="number" id="fintwin-opex" class="fintwin-input" placeholder="e.g. +3000 software licenses" value="0" step="250">
+                                    </div>
+
+                                    <!-- Vendor Payment Delay Slider -->
+                                    <div class="fintwin-param-group">
+                                        <div class="fintwin-param-header">
+                                            <span>Vendor Payment Delay</span>
+                                            <span class="fintwin-param-val" id="fintwin-delay-days-val">0 days</span>
+                                        </div>
+                                        <input type="range" id="fintwin-delay-days" class="fintwin-range-slider" min="0" max="180" step="15" value="0">
+                                    </div>
+
+                                    <!-- One-time CapEx -->
+                                    <div class="fintwin-param-group">
+                                        <div class="fintwin-param-header">
+                                            <span>One-Time CapEx Outlay ($)</span>
+                                        </div>
+                                        <input type="number" id="fintwin-capex" class="fintwin-input" placeholder="e.g. 50000 server equipment" min="0" value="0" step="1000">
+                                    </div>
+
+                                    <div class="fintwin-form-actions">
+                                        <button type="submit" class="btn btn-primary" id="btn-fintwin-save" style="flex:1;">
+                                            <i class="fa-solid fa-floppy-disk"></i> Save Scenario
+                                        </button>
+                                        <button type="button" class="btn btn-outline" id="btn-fintwin-simulate-now" style="flex:1;">
+                                            <i class="fa-solid fa-bolt"></i> Run Simulation
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Saved Scenarios Card -->
+                            <div class="fintwin-scenarios-card glass">
+                                <div class="fintwin-card-header">
+                                    <h3><i class="fa-solid fa-folder-tree" style="color:var(--accent-blue);"></i> Saved Scenarios</h3>
+                                    <span class="text-muted" style="font-size:11.5px;">Check to compare</span>
+                                </div>
+                                <div class="fintwin-scenario-list" id="fintwin-saved-list">
+                                    <p class="text-muted text-sm">Loading scenarios...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Simulation Results & Analytics -->
+                        <div class="fintwin-results-panel">
+                            <!-- Projected KPIs -->
+                            <div class="fintwin-kpi-grid">
+                                <div class="fintwin-kpi-card glass">
+                                    <div class="fintwin-kpi-title"><i class="fa-solid fa-hourglass-half blue-icon"></i> Projected Runway</div>
+                                    <div class="fintwin-kpi-val" id="fintwin-kpi-runway">-- mos</div>
+                                    <div class="fintwin-kpi-delta neutral" id="fintwin-kpi-runway-delta">Loading baseline...</div>
+                                </div>
+
+                                <div class="fintwin-kpi-card glass">
+                                    <div class="fintwin-kpi-title"><i class="fa-solid fa-wallet green-icon"></i> Ending Cash Balance</div>
+                                    <div class="fintwin-kpi-val" id="fintwin-kpi-cash">$0</div>
+                                    <div class="fintwin-kpi-delta neutral" id="fintwin-kpi-cash-delta">vs initial reserves</div>
+                                </div>
+
+                                <div class="fintwin-kpi-card glass">
+                                    <div class="fintwin-kpi-title"><i class="fa-solid fa-money-bill-trend-up purple-icon"></i> Net Cash Flow</div>
+                                    <div class="fintwin-kpi-val" id="fintwin-kpi-netflow">$0</div>
+                                    <div class="fintwin-kpi-delta neutral" id="fintwin-kpi-netflow-delta">Total horizon net</div>
+                                </div>
+
+                                <div class="fintwin-kpi-card glass">
+                                    <div class="fintwin-kpi-title"><i class="fa-solid fa-chart-line orange-icon"></i> Projected Profit Margin</div>
+                                    <div class="fintwin-kpi-val" id="fintwin-kpi-margin">0%</div>
+                                    <div class="fintwin-kpi-delta neutral" id="fintwin-kpi-margin-delta">Accounting Margin</div>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Charts -->
+                            <div class="fintwin-charts-grid">
+                                <div class="fintwin-chart-card glass">
+                                    <div class="chart-header">
+                                        <h3><i class="fa-solid fa-chart-line blue-icon"></i> Cash Reserve & Net Flow Trajectory</h3>
+                                    </div>
+                                    <div class="fintwin-chart-container">
+                                        <canvas id="fintwin-cash-chart"></canvas>
+                                    </div>
+                                </div>
+
+                                <div class="fintwin-chart-card glass">
+                                    <div class="chart-header">
+                                        <h3><i class="fa-solid fa-chart-column purple-icon"></i> Monthly Revenue vs Expense Forecast</h3>
+                                    </div>
+                                    <div class="fintwin-chart-container">
+                                        <canvas id="fintwin-revexp-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Risk & Vector Policy RAG Insights Grid -->
+                            <div class="fintwin-insights-grid">
+                                <div class="fintwin-risk-card glass">
+                                    <div class="fintwin-risk-header">
+                                        <h3><i class="fa-solid fa-shield-virus red-icon"></i> AI Risk Assessment</h3>
+                                        <span class="fintwin-risk-badge LOW" id="fintwin-risk-level-badge">LOW RISK</span>
+                                    </div>
+                                    <div id="fintwin-risk-flags-list" style="display:flex; flex-direction:column; gap:8px;">
+                                        <p class="text-muted" style="font-size:12px;">Evaluating scenario against baseline risk parameters...</p>
+                                    </div>
+                                </div>
+
+                                <div class="fintwin-policy-card glass">
+                                    <div class="fintwin-risk-header">
+                                        <h3><i class="fa-solid fa-book-bookmark purple-icon"></i> Compliance & Policy Evidence</h3>
+                                        <span class="badge-pill" style="background:var(--accent-purple-light); color:var(--accent-purple);">ChromaDB RAG</span>
+                                    </div>
+                                    <div id="fintwin-policy-evidence-list" style="display:flex; flex-direction:column; gap:8px;">
+                                        <p class="text-muted" style="font-size:12px;">Searching knowledge base for relevant financial reserve policies...</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Recommendations & Model Assumptions -->
+                            <div class="fintwin-recs-box">
+                                <h4 style="font-size:13.5px; font-weight:600; color:var(--text-main);"><i class="fa-solid fa-lightbulb" style="color:var(--accent-orange); margin-right:6px;"></i> Actionable Recommendations</h4>
+                                <ul class="fintwin-recs-list" id="fintwin-recommendations-list">
+                                    <li>Loading recommendations...</li>
+                                </ul>
+                                <h4 style="font-size:13.5px; font-weight:600; color:var(--text-main); margin-top:16px;"><i class="fa-solid fa-clipboard-check" style="color:var(--accent-blue); margin-right:6px;"></i> Model Assumptions & Methodology</h4>
+                                <ul class="fintwin-recs-list" id="fintwin-assumptions-list">
+                                    <li>Loading model assumptions...</li>
+                                </ul>
+                                <div class="fintwin-disclaimer-text">
+                                    <strong><i class="fa-solid fa-triangle-exclamation"></i> Financial Safety Disclaimer:</strong> Projections are deterministic estimates based on existing transactions and user scenario parameters. They do not constitute guaranteed outcomes or alter historical accounting records.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scenario Comparison Modal Overlay -->
+                <div class="fintwin-modal-overlay" id="fintwin-compare-modal" style="display:none;">
+                    <div class="fintwin-modal-content">
+                        <div class="fintwin-card-header">
+                            <h3><i class="fa-solid fa-code-compare" style="color:var(--accent-purple);"></i> Multi-Scenario Baseline Comparison</h3>
+                            <button type="button" class="btn btn-outline" id="btn-fintwin-close-compare"><i class="fa-solid fa-xmark"></i> Close</button>
+                        </div>
+                        <div class="fintwin-chart-container" style="height:260px; margin-top:16px;">
+                            <canvas id="fintwin-compare-chart"></canvas>
+                        </div>
+                        <table class="fintwin-compare-table">
+                            <thead>
+                                <tr>
+                                    <th>Scenario</th>
+                                    <th>Horizon</th>
+                                    <th>Runway (mos)</th>
+                                    <th>Ending Cash</th>
+                                    <th>Net Cash Flow</th>
+                                    <th>Avg Expense/mo</th>
+                                    <th>Risk Assessment</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fintwin-compare-tbody">
+                                <!-- Loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
@@ -633,6 +889,7 @@
     <script src="/static/js/charts.js?v=7.0.0"></script>
     <script src="/static/js/upload.js?v=7.0.0"></script>
     <script src="/static/js/app.js?v=7.0.0"></script>
+    <script src="/static/js/fintwin.js?v=1.0.0"></script>
 </body>
 
 </html>

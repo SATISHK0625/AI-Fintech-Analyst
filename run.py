@@ -2,8 +2,10 @@ import os
 import sys
 import uvicorn
 
-# Add backend directory to sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "backend")))
+# Add backend directory to sys.path and PYTHONPATH for uvicorn reloader
+backend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "backend"))
+sys.path.insert(0, backend_dir)
+os.environ["PYTHONPATH"] = backend_dir + os.pathsep + os.environ.get("PYTHONPATH", "")
 
 if __name__ == "__main__":
     print("Starting AI Financial Analyst & Auditor Application...")

@@ -119,21 +119,6 @@ def _synthesize_expert_offline_response(
     rag_matches: list[dict],
     vendor_spends: dict
 ) -> str:
-    """Synthesizes ChatGPT-grade executive financial & forensic audit responses using actual ledgers and RAG policy context."""
-    q = query.lower().strip()
-    q_words = set(q.replace("?", "").replace("!", "").replace(".", "").replace(",", "").replace(":", "").split())
-
-def _synthesize_expert_offline_response(
-    query: str,
-    company_name: str,
-    analysis: dict,
-    audit: dict,
-    transactions: list[dict],
-    subscriptions: list[dict],
-    vendors: list[dict],
-    rag_matches: list[dict],
-    vendor_spends: dict
-) -> str:
     """Synthesizes warm, natural, human-like responses grounded in company ledgers and RAG policy context."""
     q = query.lower().strip()
     q_words = set(q.replace("?", "").replace("!", "").replace(".", "").replace(",", "").replace(":", "").split())
